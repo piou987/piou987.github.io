@@ -2,7 +2,7 @@
 sort: 2
 ---
 
-# Technical
+# Sites
 
 ```
 {% include list.liquid all=true %}

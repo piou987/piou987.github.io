@@ -153,6 +153,7 @@ cd ~
 `~/.oh-my-zsh/themes/agnoster.zsh-theme`
 
 ```
+{% raw %} # jekyll template tag
 # newline prompt
 prompt_newline() {
   if [[ -n $CURRENT_BG ]]; then
@@ -178,6 +179,7 @@ build_prompt() {
   prompt_newline
   prompt_end
 }
+{% endraw %} # jekyll template tag
 ```
 
 

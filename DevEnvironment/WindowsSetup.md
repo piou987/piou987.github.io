@@ -6,7 +6,9 @@
 
 ## WSL2
 
-
+| URL                                                        | Description |
+| ---------------------------------------------------------- | ----------- |
+| https://docs.microsoft.com/ko-kr/windows/wsl/install-win10 | 참조        |
 
 
 
@@ -154,6 +156,33 @@ cd ~
 
 ```
 {% raw %} # jekyll template tag
+
+# Context: user@hostname (who am I and where am I)
+prompt_context() {
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+#    prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+#    prompt_segment magenta black "%(!.%{%F{yellow}%}.)%n"
+    prompt_segment black default ' [%n] [%*] '
+  fi
+}
+
+# k8s prompt (kubens)
+prompt_kubens() {
+  if [[ -n $(kubectx -c 2>/dev/null) ]]; then
+    local kube_ns=$(kubens -c)
+    prompt_segment cyan black "kubens) ${kube_ns}"
+  fi
+}
+
+# k8s prompt (kubectx)
+prompt_kubectx() {
+  if [[ -n $(kubectx -c 2>/dev/null) ]]; then
+    local kube_ctx=$(kubectx -c)
+    prompt_segment magenta black "kubectx) ${kube_ctx}"
+  fi
+}
+
+
 # newline prompt
 prompt_newline() {
   if [[ -n $CURRENT_BG ]]; then
@@ -161,7 +190,9 @@ prompt_newline() {
 %{%k%F{blue}%}$SEGMENT_SEPARATOR"
   else
     echo -n "%{%k%}"
-  fi  echo -n "%{%f%}"
+  fi
+
+  echo -n "%{%f%}"
   CURRENT_BG=''
 }
 
@@ -171,14 +202,18 @@ build_prompt() {
   prompt_status
   prompt_virtualenv
   prompt_aws
-  prompt_context
+  prompt_kubens
+  prompt_kubectx
+# prompt_context
   prompt_dir
   prompt_git
   prompt_bzr
   prompt_hg
+  prompt_context
   prompt_newline
   prompt_end
 }
+
 {% endraw %} # jekyll template tag
 ```
 
